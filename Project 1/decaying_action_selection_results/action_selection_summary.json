@@ -1,0 +1,63 @@
+{
+  "configuration": {
+    "runs": 2000,
+    "steps": 10000,
+    "arms": 10,
+    "alpha": 0.1,
+    "epsilon_initial": 0.3,
+    "epsilon_final": 0.01,
+    "temperature_initial": 1.0,
+    "temperature_final": 0.05,
+    "random_walk_std": 0.01,
+    "reward_std": 1.0,
+    "seed": 2026
+  },
+  "decay": {
+    "epsilon": "geometric",
+    "temperature": "geometric"
+  },
+  "windows": {
+    "first_1000_steps": {
+      "epsilon_greedy": {
+        "average_reward": 0.1505206134421233,
+        "optimal_action_percent": 29.171800000000005
+      },
+      "softmax": {
+        "average_reward": 0.04262892089255037,
+        "optimal_action_percent": 13.675049999999999
+      },
+      "softmax_minus_epsilon_greedy": {
+        "average_reward": -0.10789169254957294,
+        "optimal_action_percentage_points": -15.496750000000006
+      }
+    },
+    "middle_1000_steps": {
+      "epsilon_greedy": {
+        "average_reward": 0.9823173382362334,
+        "optimal_action_percent": 72.94380000000001
+      },
+      "softmax": {
+        "average_reward": 0.9740046583570224,
+        "optimal_action_percent": 66.9129
+      },
+      "softmax_minus_epsilon_greedy": {
+        "average_reward": -0.008312679879210916,
+        "optimal_action_percentage_points": -6.030900000000017
+      }
+    },
+    "last_1000_steps": {
+      "epsilon_greedy": {
+        "average_reward": 1.427210629415417,
+        "optimal_action_percent": 76.73995000000001
+      },
+      "softmax": {
+        "average_reward": 1.4304863331481856,
+        "optimal_action_percent": 75.4923
+      },
+      "softmax_minus_epsilon_greedy": {
+        "average_reward": 0.0032757037327686422,
+        "optimal_action_percentage_points": -1.2476500000000073
+      }
+    }
+  }
+}

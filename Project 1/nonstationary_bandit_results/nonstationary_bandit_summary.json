@@ -1,0 +1,25 @@
+{
+  "configuration": {
+    "runs": 2000,
+    "steps": 10000,
+    "arms": 10,
+    "epsilon": 0.1,
+    "alpha": 0.1,
+    "random_walk_std": 0.01,
+    "reward_std": 1.0,
+    "seed": 2026
+  },
+  "metric_window": "last 1000 steps",
+  "sample_average": {
+    "average_reward": 1.0632739516061598,
+    "optimal_action_percent": 45.841300000000004
+  },
+  "constant_step_size": {
+    "average_reward": 1.3213551737899305,
+    "optimal_action_percent": 75.66000000000001
+  },
+  "constant_minus_sample": {
+    "average_reward": 0.2580812221837707,
+    "optimal_action_percentage_points": 29.818700000000007
+  }
+}
