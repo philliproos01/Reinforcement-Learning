@@ -1,0 +1,244 @@
+{
+  "configuration": {
+    "runs": 1000,
+    "steps": 10000,
+    "arms": 10,
+    "alpha": 0.1,
+    "period": 1000,
+    "amplitude": 1.0,
+    "baseline_std": 0.1,
+    "reward_std": 1.0,
+    "epsilon_values": [
+      0.01,
+      0.1,
+      0.2
+    ],
+    "temperature_values": [
+      0.05,
+      0.1,
+      0.2
+    ],
+    "epsilon_decay_initial": 0.3,
+    "epsilon_decay_final": 0.01,
+    "temperature_decay_initial": 1.0,
+    "temperature_decay_final": 0.05,
+    "seed": 2028
+  },
+  "agents": [
+    {
+      "identifier": "sample_average_epsilon_0p1",
+      "label": "Sample average, $\\epsilon=0.1$",
+      "policy": "epsilon_greedy",
+      "update_rule": "sample_average",
+      "exploration_initial": 0.1,
+      "exploration_final": 0.1
+    },
+    {
+      "identifier": "constant_alpha_epsilon_0p01",
+      "label": "$\\epsilon$-greedy, $\\epsilon=0.01$",
+      "policy": "epsilon_greedy",
+      "update_rule": "constant_step",
+      "exploration_initial": 0.01,
+      "exploration_final": 0.01
+    },
+    {
+      "identifier": "constant_alpha_epsilon_0p1",
+      "label": "$\\epsilon$-greedy, $\\epsilon=0.1$",
+      "policy": "epsilon_greedy",
+      "update_rule": "constant_step",
+      "exploration_initial": 0.1,
+      "exploration_final": 0.1
+    },
+    {
+      "identifier": "constant_alpha_epsilon_0p2",
+      "label": "$\\epsilon$-greedy, $\\epsilon=0.2$",
+      "policy": "epsilon_greedy",
+      "update_rule": "constant_step",
+      "exploration_initial": 0.2,
+      "exploration_final": 0.2
+    },
+    {
+      "identifier": "decaying_epsilon",
+      "label": "Decaying $\\epsilon$: 0.3$\\to$0.01",
+      "policy": "epsilon_greedy",
+      "update_rule": "constant_step",
+      "exploration_initial": 0.3,
+      "exploration_final": 0.01
+    },
+    {
+      "identifier": "constant_alpha_softmax_0p05",
+      "label": "Softmax, $T=0.05$",
+      "policy": "softmax",
+      "update_rule": "constant_step",
+      "exploration_initial": 0.05,
+      "exploration_final": 0.05
+    },
+    {
+      "identifier": "constant_alpha_softmax_0p1",
+      "label": "Softmax, $T=0.1$",
+      "policy": "softmax",
+      "update_rule": "constant_step",
+      "exploration_initial": 0.1,
+      "exploration_final": 0.1
+    },
+    {
+      "identifier": "constant_alpha_softmax_0p2",
+      "label": "Softmax, $T=0.2$",
+      "policy": "softmax",
+      "update_rule": "constant_step",
+      "exploration_initial": 0.2,
+      "exploration_final": 0.2
+    },
+    {
+      "identifier": "decaying_temperature",
+      "label": "Decaying $T$: 1$\\to$0.05",
+      "policy": "softmax",
+      "update_rule": "constant_step",
+      "exploration_initial": 1.0,
+      "exploration_final": 0.05
+    }
+  ],
+  "metrics": {
+    "overall": {
+      "sample_average_epsilon_0p1": {
+        "average_reward": 0.24520745494490093,
+        "optimal_action_percent": 15.615810000000002,
+        "dynamic_regret": 0.764238704291813
+      },
+      "constant_alpha_epsilon_0p01": {
+        "average_reward": 0.5756044476350491,
+        "optimal_action_percent": 19.621959999999998,
+        "dynamic_regret": 0.4329122535006589
+      },
+      "constant_alpha_epsilon_0p1": {
+        "average_reward": 0.6239012454384515,
+        "optimal_action_percent": 22.531950000000002,
+        "dynamic_regret": 0.38521970936980043
+      },
+      "constant_alpha_epsilon_0p2": {
+        "average_reward": 0.589435418651861,
+        "optimal_action_percent": 22.910930000000004,
+        "dynamic_regret": 0.42035772460555193
+      },
+      "decaying_epsilon": {
+        "average_reward": 0.6047221278086647,
+        "optimal_action_percent": 21.947740000000003,
+        "dynamic_regret": 0.4045504460451122
+      },
+      "constant_alpha_softmax_0p05": {
+        "average_reward": 0.6160102726134216,
+        "optimal_action_percent": 21.934210000000004,
+        "dynamic_regret": 0.3929375898357154
+      },
+      "constant_alpha_softmax_0p1": {
+        "average_reward": 0.6580108409769224,
+        "optimal_action_percent": 24.80605,
+        "dynamic_regret": 0.35141025997883235
+      },
+      "constant_alpha_softmax_0p2": {
+        "average_reward": 0.6675586994424849,
+        "optimal_action_percent": 28.46751,
+        "dynamic_regret": 0.3424383674948189
+      },
+      "decaying_temperature": {
+        "average_reward": 0.5705566586495855,
+        "optimal_action_percent": 24.77799,
+        "dynamic_regret": 0.4390540148875292
+      }
+    },
+    "last_1000_step_cycle": {
+      "sample_average_epsilon_0p1": {
+        "average_reward": 0.21786632184891977,
+        "optimal_action_percent": 15.855900000000004,
+        "dynamic_regret": 0.7916021078537814
+      },
+      "constant_alpha_epsilon_0p01": {
+        "average_reward": 0.5167036337776618,
+        "optimal_action_percent": 18.363599999999998,
+        "dynamic_regret": 0.4918174178523851
+      },
+      "constant_alpha_epsilon_0p1": {
+        "average_reward": 0.618295075318265,
+        "optimal_action_percent": 22.248700000000003,
+        "dynamic_regret": 0.39101734409840744
+      },
+      "constant_alpha_epsilon_0p2": {
+        "average_reward": 0.5867316062510606,
+        "optimal_action_percent": 22.3776,
+        "dynamic_regret": 0.42315818425790525
+      },
+      "decaying_epsilon": {
+        "average_reward": 0.574993693757199,
+        "optimal_action_percent": 19.860700000000005,
+        "dynamic_regret": 0.43296093861096163
+      },
+      "constant_alpha_softmax_0p05": {
+        "average_reward": 0.5648016036612682,
+        "optimal_action_percent": 20.328699999999998,
+        "dynamic_regret": 0.4445716004142296
+      },
+      "constant_alpha_softmax_0p1": {
+        "average_reward": 0.6416776300603969,
+        "optimal_action_percent": 24.6737,
+        "dynamic_regret": 0.3691062376388411
+      },
+      "constant_alpha_softmax_0p2": {
+        "average_reward": 0.668767919295851,
+        "optimal_action_percent": 28.436399999999995,
+        "dynamic_regret": 0.3426899586890312
+      },
+      "decaying_temperature": {
+        "average_reward": 0.6112839993776008,
+        "optimal_action_percent": 23.450699999999998,
+        "dynamic_regret": 0.39966486910139637
+      }
+    },
+    "last_1000_steps": {
+      "sample_average_epsilon_0p1": {
+        "average_reward": 0.21786632184891977,
+        "optimal_action_percent": 15.855900000000004,
+        "dynamic_regret": 0.7916021078537814
+      },
+      "constant_alpha_epsilon_0p01": {
+        "average_reward": 0.5167036337776618,
+        "optimal_action_percent": 18.363599999999998,
+        "dynamic_regret": 0.4918174178523851
+      },
+      "constant_alpha_epsilon_0p1": {
+        "average_reward": 0.618295075318265,
+        "optimal_action_percent": 22.248700000000003,
+        "dynamic_regret": 0.39101734409840744
+      },
+      "constant_alpha_epsilon_0p2": {
+        "average_reward": 0.5867316062510606,
+        "optimal_action_percent": 22.3776,
+        "dynamic_regret": 0.42315818425790525
+      },
+      "decaying_epsilon": {
+        "average_reward": 0.574993693757199,
+        "optimal_action_percent": 19.860700000000005,
+        "dynamic_regret": 0.43296093861096163
+      },
+      "constant_alpha_softmax_0p05": {
+        "average_reward": 0.5648016036612682,
+        "optimal_action_percent": 20.328699999999998,
+        "dynamic_regret": 0.4445716004142296
+      },
+      "constant_alpha_softmax_0p1": {
+        "average_reward": 0.6416776300603969,
+        "optimal_action_percent": 24.6737,
+        "dynamic_regret": 0.3691062376388411
+      },
+      "constant_alpha_softmax_0p2": {
+        "average_reward": 0.668767919295851,
+        "optimal_action_percent": 28.436399999999995,
+        "dynamic_regret": 0.3426899586890312
+      },
+      "decaying_temperature": {
+        "average_reward": 0.6112839993776008,
+        "optimal_action_percent": 23.450699999999998,
+        "dynamic_regret": 0.39966486910139637
+      }
+    }
+  }
+}
