@@ -1,10 +1,4 @@
-"""Compare decaying epsilon-greedy and decaying softmax bandit agents.
-
-The experiment uses the nonstationary 10-armed testbed from Exercise 2.5:
-all true action values begin at zero and then follow independent Gaussian
-random walks. Both agents use the same constant step-size action-value update,
-which isolates the effect of their action-selection strategies.
-"""
+"""Compare decaying epsilon-greedy and decaying softmax bandit agents."""
 
 from __future__ import annotations
 
@@ -13,10 +7,6 @@ import csv
 import json
 from dataclasses import asdict, dataclass
 from pathlib import Path
-
-import matplotlib
-
-matplotlib.use("Agg")
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -402,7 +392,6 @@ def save_json(data: dict[str, object], output_path: Path) -> None:
 def plot_performance(
     config: ExperimentConfig,
     result: ExperimentResult,
-    output_path: Path,
 ) -> None:
     """Plot reward and optimal-action rate for both action selectors."""
 
@@ -480,15 +469,9 @@ def plot_performance(
         va="top",
         fontsize=10,
     )
-    output_path.parent.mkdir(parents=True, exist_ok=True)
-    figure.savefig(output_path, dpi=200, bbox_inches="tight")
-    plt.close(figure)
-
-
 def plot_schedules(
     config: ExperimentConfig,
     result: ExperimentResult,
-    output_path: Path,
 ) -> None:
     """Plot the two decay schedules on separate, correctly scaled axes."""
 
@@ -516,110 +499,6 @@ def plot_schedules(
         fontsize=15,
         fontweight="bold",
     )
-    output_path.parent.mkdir(parents=True, exist_ok=True)
-    figure.savefig(output_path, dpi=200, bbox_inches="tight")
-    plt.close(figure)
-
-
-def build_report(
-    config: ExperimentConfig,
-    summary: dict[str, object],
-) -> str:
-    """Create a short report tied to the metrics from the current run."""
-
-    windows = summary["windows"]
-    assert isinstance(windows, dict)
-    window = min(1_000, config.steps)
-    early = windows[f"first_{window}_steps"]
-    late = windows[f"last_{window}_steps"]
-    assert isinstance(early, dict) and isinstance(late, dict)
-    early_difference = early["softmax_minus_epsilon_greedy"]
-    late_difference = late["softmax_minus_epsilon_greedy"]
-    late_epsilon = late["epsilon_greedy"]
-    late_softmax = late["softmax"]
-    assert isinstance(early_difference, dict)
-    assert isinstance(late_difference, dict)
-    assert isinstance(late_epsilon, dict)
-    assert isinstance(late_softmax, dict)
-
-    return f"""# Decaying Action-Selection Comparison
-
-## Experiment
-
-This experiment compares decaying epsilon-greedy selection with decaying
-softmax (Boltzmann) selection on the nonstationary bandit from Part 1. Each of
-the {config.runs:,} runs has {config.arms} actions whose true values begin at
-zero and take independent Gaussian random-walk steps with standard deviation
-{config.random_walk_std:g}. Rewards have standard deviation
-{config.reward_std:g}. Both agents use the constant action-value step size
-alpha = {config.alpha:g}; therefore, action selection is the main experimental
-difference.
-
-Epsilon decays geometrically from {config.epsilon_initial:g} to
-{config.epsilon_final:g}. Softmax temperature decays geometrically from
-{config.temperature_initial:g} to {config.temperature_final:g}. Nonzero final
-values preserve some adaptation in the nonstationary environment.
-
-![Performance comparison](action_selection_comparison.png)
-
-![Decay schedules](decay_schedules.png)
-
-## Results
-
-Over the final {window:,} steps, epsilon-greedy obtains average reward
-{late_epsilon['average_reward']:.4f} and selects the optimal action
-{late_epsilon['optimal_action_percent']:.2f}% of the time. Softmax obtains
-average reward {late_softmax['average_reward']:.4f} and selects the optimal
-action {late_softmax['optimal_action_percent']:.2f}% of the time. Thus, the
-late-run softmax-minus-epsilon-greedy differences are
-{late_difference['average_reward']:+.4f} reward and
-{late_difference['optimal_action_percentage_points']:+.2f} percentage points.
-During the first {window:,} steps, the corresponding differences are
-{early_difference['average_reward']:+.4f} reward and
-{early_difference['optimal_action_percentage_points']:+.2f} percentage points.
-
-## Discussion and hypotheses
-
-1. Epsilon-greedy is substantially better early in this run. Its initial
-   epsilon of {config.epsilon_initial:g} still chooses a greedy action on most
-   steps, whereas the initial softmax temperature of
-   {config.temperature_initial:g} is large compared with the small early
-   action-value differences. Softmax is therefore close to uniform for longer,
-   which explains its lower early reward and optimal-action rate.
-
-2. The gap closes as temperature falls and the true action values spread out.
-   Both effects make the softmax probabilities more concentrated. Softmax then
-   uses its graded preference among actions: unlike epsilon-greedy exploration,
-   it gives plausible actions more probability than actions currently believed
-   to be poor.
-
-3. Late reward is nearly tied even though epsilon-greedy selects the exact
-   optimum somewhat more often. A likely explanation is that softmax sometimes
-   chooses the second- or third-best action when its value is very close to the
-   maximum. This hurts the binary optimal-action metric but may cost almost no
-   reward. The late reward difference is small enough that it should not be
-   treated as strong evidence of a softmax advantage without additional seeds
-   or confidence intervals.
-
-4. Decay creates a stability-adaptation tradeoff. Smaller epsilon and
-   temperature improve exploitation, but this problem never becomes
-   stationary. If either schedule approached zero too quickly, an agent could
-   stop revisiting actions whose true values later random-walk upward. The
-   nonzero endpoints used here reduce, but do not eliminate, that risk.
-
-5. Softmax is sensitive to the numerical scale of the value estimates. A
-   temperature schedule that works for reward standard deviation
-   {config.reward_std:g} and random-walk standard deviation
-   {config.random_walk_std:g} may perform differently after either scale is
-   changed. Epsilon has a more direct interpretation, so schedule sweeps would
-   be needed before making a general claim that one selector is superior.
-
-The first plotted point is 100% optimal for both methods because, as in Part 1,
-all true values are tied at zero before the first random-walk transition. This
-single point does not affect the long-run comparison.
-"""
-
-
 def parse_arguments() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--runs", type=int, default=2_000)
@@ -637,7 +516,7 @@ def parse_arguments() -> argparse.Namespace:
         "--output-dir",
         type=Path,
         default=Path(__file__).resolve().parent,
-        help="Directory for plots, data, summary, and report.",
+        help="Directory for the CSV data and JSON summary.",
     )
     return parser.parse_args()
 
@@ -661,24 +540,18 @@ def main() -> None:
     summary = build_summary(config, result)
 
     output_dir = args.output_dir.resolve()
-    performance_path = output_dir / "action_selection_comparison.png"
-    schedule_path = output_dir / "decay_schedules.png"
     csv_path = output_dir / "action_selection_results.csv"
     summary_path = output_dir / "action_selection_summary.json"
-    report_path = output_dir / "experiment_report.md"
 
-    plot_performance(config, result, performance_path)
-    plot_schedules(config, result, schedule_path)
+    plot_performance(config, result)
+    plot_schedules(config, result)
     save_results_csv(result, csv_path)
     save_json(summary, summary_path)
-    report_path.write_text(build_report(config, summary), encoding="utf-8")
 
     print(json.dumps(summary, indent=2))
-    print(f"Performance plot: {performance_path}")
-    print(f"Schedule plot: {schedule_path}")
     print(f"Data: {csv_path}")
     print(f"Summary: {summary_path}")
-    print(f"Report: {report_path}")
+    plt.show()
 
 
 if __name__ == "__main__":
