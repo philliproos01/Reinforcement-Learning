@@ -398,14 +398,14 @@ def plot_performance(
     steps = np.arange(1, config.steps + 1)
     epsilon_label = (
         rf"Decaying $\epsilon$-greedy "
-        rf"(${config.epsilon_initial:g}\to{config.epsilon_final:g}$)"
+        #rf"(${config.epsilon_initial:g}\to{config.epsilon_final:g}$)"
     )
     softmax_label = (
         rf"Decaying softmax $T$ "
-        rf"(${config.temperature_initial:g}\to{config.temperature_final:g}$)"
+        #rf"(${config.temperature_initial:g}\to{config.temperature_final:g}$)"
     )
-    epsilon_color = "#D55E00"
-    softmax_color = "#0072B2"
+    epsilon_color = "#FF0000"
+    softmax_color = "#48FF00"
 
     plt.style.use("seaborn-v0_8-whitegrid")
     figure, axes = plt.subplots(
@@ -454,7 +454,7 @@ def plot_performance(
         axis.set_axisbelow(True)
 
     figure.suptitle(
-        f"Action Selection on a Nonstationary {config.arms}-Armed Bandit",
+        f"Action Selection on a Nonstationary k-Armed Bandit",
         fontsize=15,
         fontweight="bold",
     )
@@ -480,11 +480,11 @@ def plot_schedules(
     figure, axes = plt.subplots(
         2, 1, figsize=(10, 6), sharex=True, constrained_layout=True
     )
-    axes[0].plot(steps, result.epsilon_schedule, color="#D55E00", linewidth=2)
+    axes[0].plot(steps, result.epsilon_schedule, color="#FF0000", linewidth=2)
     axes[0].set_ylabel(r"Exploration rate $\epsilon$")
     axes[0].set_title(r"$\epsilon$-greedy schedule")
     axes[1].plot(
-        steps, result.temperature_schedule, color="#0072B2", linewidth=2
+        steps, result.temperature_schedule, color="#48FF00", linewidth=2
     )
     axes[1].set_xlabel("Steps")
     axes[1].set_ylabel(r"Temperature $T$")
